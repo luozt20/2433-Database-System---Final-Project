@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu - {{ restaurant['Name'] }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        header nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+
+        .menu-item h3 {
+            font-size: 1.2rem;
+            margin: 0;
+        }
+
+        .menu-item p {
+            margin: 5px 0;
+            color: #666;
+        }
+
+        .menu-item .actions {
+            text-align: right;
+        }
+
+        .menu-item button {
+            background-color: #007bff;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .menu-item button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Foodly</div>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/cart">Cart</a>
+            <a href="/account">Account</a>
+        </nav>
+    </header>
+    <main>
+        <h1>{{ restaurant['Name'] }}</h1>
+        <h2>Menu</h2>
+        <ul>
+            {% for item in menu_items %}
+            <li class="menu-item">
+                <div>
+                    <h3>{{ item['Name'] }}</h3>
+                    <p>{{ item['Description'] }}</p>
+                    <p>Price: ${{ item['Price'] }}</p>
+                </div>
+                <div class="actions">
+                    <form method="POST" action="{{ url_for('add_to_cart', menu_item_id=item['MenuItemID']) }}">
+                        <button type="submit">Add to Cart</button>
+                    </form>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </main>
+</body>
+</html>
